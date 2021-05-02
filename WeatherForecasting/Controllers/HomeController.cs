@@ -24,8 +24,9 @@ namespace WeatherForecasting.Controllers
         [HttpGet]
         public PartialViewResult GetForecastData(int locationId)
         {
-            var sql = $"SELECT Id,ForecastDate,WeatherType,MinTemp,MaxTemp FROM forecast " +
-                $"WHERE LocationId = {locationId} AND forecastDate > '{DateTime.Today}'";
+            var sql = $"SELECT Top 7 Id,ForecastDate,WeatherType,MinTemp,MaxTemp FROM forecast " +
+                $"WHERE LocationId = {locationId} AND forecastDate > '{DateTime.Today}'" +
+                $"Order by forecastDate ";
             var forecast = _connection.Query<Forecast>(sql).ToList();
             return PartialView("GetForecastData", forecast);
         }
